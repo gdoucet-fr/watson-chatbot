@@ -4,5 +4,11 @@
     "express": "^4.16.4",
     "lodash": "^4.17.11",
     "watson-developer-cloud": "^3.12.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.4"
+  },
+  "scripts": {
+    "dev": "./node_modules/.bin/nodemon server.js"
   }
 }

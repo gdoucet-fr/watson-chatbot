@@ -9,12 +9,16 @@
 
     <title>Blog Template for Bootstrap</title>
 
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+    <!-- <link rel="stylesheet" href="./style/sp-custom-bs4.css" > -->
+
 
     <!-- Custom styles for this template -->
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
     <link href="./style/blog.css" rel="stylesheet">
+    <link href="./style/chatbot.css" rel="stylesheet">
 
     <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.7.5/angular.min.js'></script>
 
@@ -40,7 +44,9 @@
         </div>
       </header>
 
-      <div class="nav-scroller py-1 mb-2">
+
+
+       <div class="nav-scroller py-1 mb-2">
         <nav class="nav d-flex justify-content-between">
           <a class="p-2 text-muted" href="#">World</a>
           <a class="p-2 text-muted" href="#">U.S.</a>
@@ -97,7 +103,7 @@
       </div>
     </div>
 
-    <main role="main" class="container">
+  <main role="main" class="container">
       <div class="row">
         <div class="col-md-8 blog-main">
           <h3 class="pb-3 mb-4 font-italic border-bottom">
@@ -172,23 +178,95 @@
 
         <aside class="col-md-4 blog-sidebar">
 
-          <div class="p-3 bg-light rounded">
-            <h4 class="font-italic">Chatbot</h4>
-            <form class="form-inline">
-              <div class="form-group mx-sm-3 mb-3">
-                <input type="text" class="form-control-plaintext" name="message" placeholder="Hello!" ng-model="usrMsg">
-              </div>
-              <button type="submit" class="btn btn-primary mb-2" ng-click="sendMsg()">Send</button>
-            </form>
 
-            <ul class="list-group">
-                <li ng-repeat="msg in messages" class="list-group-item disabled">
-                  <span ng-if="msg.bot" class="badge badge-primary badge-pill">Bot</span> {{msg.text}}</li>
-            </ul>
+          <!-- Chatbot content -->
+          <div>
+
+
+            <!-- Button trigger modal
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+              Start chat
+            </button> -->
+
+            <!--Button trigger modal -->
+            <!--define style in chatbot.css and call in class field below, -->
+             <a data-toggle="modal" href="#exampleModal" class="btn btn-primary btn-lg">Chatbot</a>
+
+
+            <!-- Modal (pop out box) -->
+            <!-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true"> -->
+
+            <div class="modal fade modalPosition" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
+              <div class="modal-dialog" style="width:500px;" style="height:500px" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                  <!--    <div class="w-100 h-100 rounded p-3 mb-2 text-dark">HR chatbot</div> -->
+                    <h5 class="modal-title" id="exampleModal">HR Chatbot</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+
+                  <!--  modal body -->
+                  <div class="modal-body" id="chat-modal">
+                    <p> This is a chatbot service. Feel free to ask a question! </p>
+                    <!-- list of chat messages -->
+                    <div class="msg-container">
+                      <div class="msg user">
+                      Hello
+                      </div>
+                      <div class="msg bot">
+                      {{msg.title}}
+                      <ul ng-if="msg.response_type=='option'">
+                        <li ng-repeat="option in msg.options"> {{option.label}} </li>
+                      </ul>
+                      <p class="time">Some time</p>
+                      </div>
+                      <!-- A chat message -->
+                      <div ng-repeat="msg in messages" class="msg" ng-class="(msg.bot) ? ['bot'] : ['user']">
+                        {{msg.text}}
+                        {{msg.title}}
+                        <ul ng-if="msg.response_type=='option'">
+                          <li ng-repeat="option in msg.options"><a class="option-item" ng-click=respondToOption(option.value)>{{option.label}}</a></li>
+                        </ul>
+                        <p class="time">{{msg.time}}</p>
+                      </div>
+                    </div>
+
+
+
+                    <!-- unordered list - chat messages -->
+                    <!-- <ul class="list-group">
+                        <li ng-repeat="msg in messages" class="list-group-item disabled">
+                          <span ng-if="msg.bot" class="badge badge-primary badge-pill">Bot</span> {{msg.text}}</li>
+                    </ul> -->
+
+                  </div>
+
+
+                  <!--  modal footer -->
+                  <div class="modal-footer">
+                    <!-- form to chat to Watson -->
+                    <form autocomplete="off" class="chat-form">
+                      <div class="input-group">
+                        <input type="text" class="form-control" name="message" placeholder="Type message..." ng-model="usrMsg" ng-disabled="responseIsOption">
+                        <div class="input-group-append">
+                          <button type="submit" class="btn btn-success" ng-click="sendMsg()">Send</button>
+                          <!--<button type="submit" class="btn btn-dark" ng-click="reset()">Reset</button> -->
+                        </div>
+                        <!-- <button type="submit" class="btn float-right" ng-click="reset()">Reset</button> -->
+                      </div>
+                    </form>
+                    <!-- <button type="button" class="btn btn-info" data-dismiss="modal">Close</button> -->
+                </div>
+
+              </div>
+            </div>
           </div>
+          <!-- end Modal -->
 
           <div class="p-3 mb-3 bg-light rounded">
-            <h4 class="font-italic">About</h4>
+            <h4>About</h4>
             <p class="mb-0">Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
           </div>
 
@@ -237,8 +315,8 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.9.4/holder.min.js" integrity="sha256-ifihHN6L/pNU1ZQikrAb7CnyMBvisKG3SUAab0F3kVU=" crossorigin="anonymous"></script>
     <script>
       Holder.addTheme('thumb', {

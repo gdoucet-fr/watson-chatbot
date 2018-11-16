@@ -1,0 +1,134 @@
+ .chatbot-title {
+
+}
+
+.modalSize {
+  width:500px;
+  margin: auto;
+}
+
+.modalPosition {
+  top:30%;
+  left:50%;
+  outline: none;
+}
+
+.buttonPosition {
+  top:75%;
+  left:75%;
+}
+
+.modal-dialog,
+.modal-content {
+    /* 80% of window height */
+     height: 90%;
+}
+
+.modal-body {
+    /* 100% = dialog height, 120px = header + footer */
+    max-height: calc(100% - 90px);
+    overflow-y: scroll;
+}
+
+.chat-form {
+  width: 100%;
+}
+
+.msg-container {
+}
+
+.msg {
+/*  border: solid 2px #dedede; */
+  margin-bottom: 5px;
+  border-radius: 5px;
+}
+
+.user {
+  text-align: right;
+  padding-right: 5px;
+  /* background-color: rgba(211,211, 211, 0.5) */
+  background-color: rgba(37, 211, 102, 1)
+}
+
+.bot {
+  text-align: left;
+  padding-left: 5px;
+  /* background-color: rgba(92, 136, 26, 0.25); */
+  background-color: rgba(220, 248, 198, 1)
+}
+
+.time {
+  font-size: 8pt
+}
+
+.button {
+
+  background-color: rgba(18, 140, 126, 1)
+}
+
+.option-item {
+  text-decoration: underline;
+  color: blue;
+  cursor: pointer;
+}
+
+/*
+.modal-footer {
+    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+}
+
+
+
+/* Chat containers
+.container {
+    border: 2px solid #dedede;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+ Darker chat container
+.darker {
+    border-color: #ccc;
+    background-color: #ddd;
+}
+
+ Clear floats
+.container::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+ Style images
+.container img {
+    float: left;
+    max-width: 60px;
+    width: 100%;
+    margin-right: 20px;
+    border-radius: 50%;
+}
+
+ Style the right image
+.container img.right {
+    float: right;
+    margin-left: 20px;
+    margin-right:0;
+}
+
+ Style time text
+.time-right {
+    float: right;
+    color: #aaa;
+}
+
+ Style time text
+.time-left {
+    float: left;
+    color: #999;
+}
+*/
