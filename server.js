@@ -7,7 +7,8 @@ var path = require('path'); // Node library to manipulate directories, file path
 
 var app = express(); // Instance of Express
 
-var credentials = require(path.join(__dirname, 'credentials.json')); // Loading the credentials from 'credentials.json'
+// Loading the credentials from 'credentials.json'
+var credentials = require(path.join(__dirname, 'credentials.json'));
 var WORKSPACE_ID = _.get(credentials, 'workspace_id');
 var USERNAME = _.get(credentials, 'username');
 var PASSWORD = _.get(credentials, 'password');
@@ -17,6 +18,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// define port
 var port = 3000;
 
 let context = {}; // Context for Watson
@@ -29,15 +31,18 @@ var service = new assistantV1({
   minimum_confidence: 0.75
 });
 
+// function for processing text response from Watson
 var processTextResponse = function (response) {
   return {text: response.text};  //object to be return the the client in the http response
 };
 
+// function for processing Option response from Watson
 var processOptionResponse = function (response) {
   return response;
 };
 
 // Function that processes the response from Watson
+// includes intent, text output and time of response
 var processResponse = function (err, response) {
   var intent;
   var text = '';
@@ -62,6 +67,10 @@ var processResponse = function (err, response) {
     //     }
     //     console.log(key, intent);
     // });
+    // if user provides value for $old_sort_code (same for account number, and new sc / an)
+    // Do an API call to Oracle
+    // new dialog branches - to consider what happens with API
+    //
 
     // used to look for a bot response, and ouput them line after line
     var botResponses = response.output.generic; //Is an array of Objects {response_type: "blah", param1: value1, param2, value2, ...}
@@ -75,7 +84,7 @@ var processResponse = function (err, response) {
           console.log('-------------------- Response type:', responseType);
           if (_.isEqual(responseType, 'text')) {
             response = processTextResponse(botResponse);
-//         text += response.text + '\n';
+        // text += response.text + '\n';
           } else if (_.isEqual(responseType, 'option')) {
             response = processOptionResponse(botResponse);
           }
@@ -99,7 +108,7 @@ service.message({
   context: context
 }, processResponse);
 
-// When the client performs a GET request on 'http://localhost:3000/', sending 'index.html'
+// When the client performs a GET request on 'http://localhost:3000/', sending 'index1.html'
 app.get('/', function (req, res){
   res.sendFile(path.join(__dirname, 'index1.html'));
 });
