@@ -1,23 +1,29 @@
 // Libraries
-var assistantV1 = require('watson-developer-cloud/assistant/v1'); // Loading the Watson SDK
 var bodyParser = require('body-parser');
 var express = require('express'); // ExpressJS HTTP framework
 var _ = require('lodash'); // Tools to manipulate objects, arrays, string...
 var path = require('path'); // Node library to manipulate directories, file paths, etc.
 
 var app = express(); // Instance of Express
+var server = require('http').Server(app);
 
+<<<<<<< HEAD
 // Loading the credentials from 'credentials.json'
 var credentials = require(path.join(__dirname, 'credentials.json'));
 var WORKSPACE_ID = _.get(credentials, 'workspace_id');
 var USERNAME = _.get(credentials, 'username');
 var PASSWORD = _.get(credentials, 'password');
+=======
+var webSocketWrapper = require(path.join(__dirname, 'webSocketWrapper'))(server);
+>>>>>>> 701db6f7e0a19158213c276ec6ae988d678da68a
 
 // Configuration of the app to use libraries
+const PORT = 3000;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
+<<<<<<< HEAD
 // define port
 var port = 3000;
 
@@ -108,48 +114,19 @@ service.message({
   context: context
 }, processResponse);
 
+=======
+// -- Web app starts here
+
+>>>>>>> 701db6f7e0a19158213c276ec6ae988d678da68a
 // When the client performs a GET request on 'http://localhost:3000/', sending 'index1.html'
 app.get('/', function (req, res){
   res.sendFile(path.join(__dirname, 'index1.html'));
 });
 
-
-// When the client performs a POST request to 'http://loclahost:3000/msg'
-app.post('/msg', function (req, res) {
-  var userMessage = _.get(req, 'body.message');
-  console.log('');
-  console.log('-------------------');
-  console.log('User message: ', userMessage);
-
-  // Relaying the message to Watson
-  service.message({
-    workspace_id: WORKSPACE_ID,
-    input: {text: userMessage},
-    context : context,
-  }, function (err, response) {
-      var data = processResponse(err, response);
-      res.json(data);
-  });
-});
-
-// app.get('/reset', function (req, res) {
-//   console.log('Resetting the context');
-//   context = {};
-//   // Relaying the message to Watson
-//   service.message({
-//     workspace_id: WORKSPACE_ID,
-//     input: {text: ''},
-//     context : context,
-//   }, function (err, response) {
-//       var data = processResponse(err, response);
-//       console.log(data)
-//       res.json(data);
-//   });
-// });
-
-app.listen(port, function (err) {
+// Starting the server that will listen on the specified port
+server.listen(PORT, function (err) {
   if (err) {
     return console.log('Error')
   }
-  console.log(`listening on port ${port}`);
+  console.log(`Chatbot app listening on port ${PORT}`);
 });
