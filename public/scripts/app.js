@@ -86,7 +86,7 @@ watsonChatbot.controller('mainController', ['$scope', '$http', 'socket', 'wsWrap
 
       var numberOfMessages = $scope.messages.length;
       var lastMessage = $scope.messages[numberOfMessages-1];
-      $scope.lastMessageIsOption = false;//_.isEqual(_.get(lastMessage, 'response_type'), 'option');
+      $scope.lastMessageIsOption = _.isEqual(_.get(lastMessage, 'response_type'), 'option');
       //  Delays the forced scroll allow the page to add the elements into the containers
       setTimeout(scroll, 200);
     };

@@ -51,6 +51,11 @@ var processResponse = function (err, response) {
     //       console.log('******** DO AN API CALL TO ORACLE HR BLAH');
     //     }
     //     console.log(key, intent);
+    // if user provides value for $old_sort_code (same for account number, and new sc / an)
+    // Do an API call to Oracle
+    // oracleWrapper.changeBankDetails(userID, sortCode, accountNumber);
+    // new dialog branches - to consider what happens with API
+    //
     // });
 
     // used to look for a bot response, and ouput them line after line
@@ -85,6 +90,10 @@ var processResponse = function (err, response) {
 var sendMessage = function (watsonInput, callback) {
   // TODO change 'text' to an object called {}
   console.log('Watson will process:', watsonInput);
+
+  // TODO
+  // If the context contains sort code details, store them in a variable
+
   service.message({
     workspace_id: WORKSPACE_ID,
     context: context,
@@ -99,7 +108,8 @@ var init = function (callback) {
   console.log('Initialising Watson');
   service.message({
     workspace_id: WORKSPACE_ID,
-    context: context
+    context: context,
+    input: {text: "__qwerty1234"}
   }, function (err, watsonResponse) {
       var data = processResponse(err, watsonResponse);
       callback(err, data);
