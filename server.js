@@ -17,7 +17,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // When the client performs a GET request on 'http://localhost:3000/', sending 'index1.html'
 app.get('/', function (req, res){
-  res.sendFile(path.join(__dirname, 'index1.html'));
+  res.sendFile(path.join(__dirname, 'neocase1.html'));
 });
 
 // Starting the server that will listen on the specified port
