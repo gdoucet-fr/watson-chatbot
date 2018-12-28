@@ -1,7 +1,5 @@
 var watsonChatbot = angular.module('watsonChatbot', ['btford.socket-io']);
 
-console.log('Hellooooooooooooo');
-
 watsonChatbot.service('socket', ['socketFactory', function SocketService(socketFactory) {
     return socketFactory({
         ioSocket: io.connect('http://localhost:3000'),
@@ -45,6 +43,8 @@ watsonChatbot.service('wsWrapper', [function () {
     console.log('Message that will be send to the server socket:', payloadString, _.isString(payloadString));
     return payloadString;
   };
+
+
 
   return {
     readMessage: readMessage,

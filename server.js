@@ -1,3 +1,5 @@
+const PORT = 3000;
+
 // Libraries
 var bodyParser = require('body-parser');
 var express = require('express'); // ExpressJS HTTP framework
@@ -10,7 +12,6 @@ var server = require('http').Server(app);
 var webSocketWrapper = require(path.join(__dirname, 'webSocketWrapper'))(server);
 
 // Configuration of the app to use libraries
-const PORT = 3000;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));

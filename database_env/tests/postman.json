@@ -1,0 +1,14 @@
+{
+  "user": {
+    "id": "111111",
+    "nin": "NN111111N"
+  },
+  "oldBankDetails": {
+    "sortCode": "11-11-11",
+    "accountNumber": "11111111"
+  },
+  "newBankDetails": {
+    "sortCode": "99-99-99",
+    "accountNumber": "99999999"
+  }
+}

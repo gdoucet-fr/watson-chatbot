@@ -8,7 +8,6 @@ module.exports = function (httpServer) {
   var formatMessage = function (eventType, data) {
     var payload = {eventType: eventType, data: data};
     var payloadString = JSON.stringify(payload);
-    console.log('formatMessage', payloadString, _.isString(payloadString));
     return payloadString;
   };
 
@@ -18,7 +17,7 @@ module.exports = function (httpServer) {
   };
 
   io.on('connection', function (clientSocket) {
-    console.log('----- New user has connected');
+    console.log('--- New user has connected');
     watsonWrapper.init(function (err, data) {
       var payload;
       if (err) {
@@ -29,15 +28,13 @@ module.exports = function (httpServer) {
       clientSocket.send(payload);
     });
 
-    clientSocket.on('disconnect', function(){
-      console.log('A user has disconnected');
-      // TODO When a user disconnects, could get the conversation history and more complicated actions
+    clientSocket.on('disconnect', function (){
+      console.log('--- A user has disconnected');
+      watsonWrapper.disconnect();
     });
 
     // When a message is receiced by the server
-    clientSocket.on('message', function(socketMessage) {
-      console.log('+++++++++++++++ SocketMessage:', socketMessage, _.isString(socketMessage));
-      console.log('');
+    clientSocket.on('message', function (socketMessage) {
       var watsonInput = parseSocketMessage(socketMessage); // Parse the data received as a string
       watsonWrapper.sendMessage(watsonInput, function (err, data) { // Relay the message to Watson
         var payload;
