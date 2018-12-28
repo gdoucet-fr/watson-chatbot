@@ -18,20 +18,17 @@ var changeBankDetails = function (user, oldBankDetails, newBankDetails, successC
   });
 };
 
-var createCase = function (user) {
-  var postData = {userID: user.id};
-  return axios.post(URL_CREATE_CASE, postData)
-  .then(function(res){
+var createCase = function () {
+  return axios.post(URL_CREATE_CASE).then(function(res){
     return res.data;
   }).catch(function(err) {
     return err;
   });
 };
 
-var updateCaseLogs = function (caseID, messages) {
+var updateCase = function (caseID, data) {
   var url = URL_CASES + caseID;
-  var postData = {logs: messages};
-  return axios.post(url, postData).then(function(res){
+  return axios.post(url, data).then(function(res){
     return res.data;
   }).catch(function(err) {
     return err;
@@ -41,5 +38,5 @@ var updateCaseLogs = function (caseID, messages) {
 module.exports = {
   changeBankDetails: changeBankDetails,
   createCase: createCase,
-  updateCaseLogs: updateCaseLogs
+  updateCase: updateCase
 }

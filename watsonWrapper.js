@@ -12,7 +12,8 @@ var USERNAME = _.get(credentials, 'username');
 var PASSWORD = _.get(credentials, 'password');
 
 var NODE_ID_END_BANK_DETAIL = 'node_11_1542369646892';
-var NODE_CREATE_CASE = 'node_3_1534929174763';//node_16_1537887753001';
+var NODE_CREATE_CASE = 'node_3_1534929174763';
+var NODE_USER_DETAILS = 'node_16_1537887753001';
 
 var keyMap = {
   'euro_id': 'id',
@@ -98,6 +99,8 @@ var processResponse = function (err, response) {
     // If one of the visited nodes is the node where the user is confirmed then store current user and create a case
     triggerCreateUser = _.includes(nodesVisited, NODE_CREATE_CASE);
 
+    triggerUpdateCaseInfo = _.includes(nodesVisited, NODE_USER_DETAILS);
+
     // API call to change the bank details in the database and send a confirmation email
     if (triggerChangeBankDetail) {
       var oldBankDetails = extractFromContext(['old_sort_code', 'old_account_number']);
@@ -122,10 +125,16 @@ var processResponse = function (err, response) {
     }
 
     if (triggerCreateUser && _.isNil(caseID)) {
-      _currentUser = extractFromContext(['name', 'euro_id', 'ni_number', 'id_number']);
-      databaseAPI.createCase(_currentUser).then(function (newCaseID) {
-        console.log('log:127', newCaseID);
+      databaseAPI.createCase().then(function (newCaseID) {
+        console.log(`--- New case created with id ${newCaseID}`);
         caseID = newCaseID;
+      });
+    }
+
+    if (triggerUpdateCaseInfo) {
+      _currentUser = extractFromContext(['name', 'euro_id', 'ni_number', 'id_number']);
+      databaseAPI.updateCase(caseID, _currentUser).then(function (data) {
+        ;
       });
     }
 
@@ -179,7 +188,7 @@ var init = function (callback) {
 }
 
 var disconnect = function () {
-  databaseAPI.updateCaseLogs(caseID, _messages).then(function (res) {
+  databaseAPI.updateCase(caseID, {logs: _messages}).then(function (res) {
     console.log(res);
   });
 };
