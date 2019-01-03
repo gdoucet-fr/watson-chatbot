@@ -10,7 +10,7 @@ var getUser = function (user, criteria) {
   if (!_.isUndefined(criteria)) {
     findCriteria = criteria;
   };
-  var user = _.find(users, function (usr) {
+  var registeredUser = _.find(users, function (usr) {
     // For all the security criteria, establish an array of booleans
     var conditions = _.map(findCriteria, function (criterion) {
       return _.isEqual(_.get(usr, criterion), _.get(user, criterion));
@@ -19,12 +19,14 @@ var getUser = function (user, criteria) {
     return allValid;
   });
   // Find a matching user for ID and NIN in the list of users
-  return _.isUndefined(user) ? null : user;
+  return _.isUndefined(registeredUser) ? null : registeredUser;
 };
 
 var validateUser = function (user) {
+  console.log('Validating user...', user);
   var registeredUser = getUser(user);
-  return !_.isNil(registeredUser);
+  console.log('User found? ', !_.isNil(registeredUser));
+  return !_.isNil(registeredUser) ? _.get(registeredUser, 'firstName') : null;
 };
 
 var compareBankDetails = function (oldBankDetails, newBankDetails) {

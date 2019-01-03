@@ -2,6 +2,7 @@ var axios = require('axios');
 var URL_CHANGE_BANK_DETAILS = 'http://localhost:8000/users/change-bank-details';
 var URL_CREATE_CASE = 'http://localhost:8000/cases/create';
 var URL_CASES = 'http://localhost:8000/cases/';
+var URL_VALIDATE_USER = 'http://localhost:8000/users/validate';
 
 var user =  {id: "111111", nin: "NN111111N"};
 var invalidUser = {id: "111111", nin: "NN111111Z"};
@@ -35,8 +36,19 @@ var updateCase = function (caseID, data) {
   });
 };
 
+var validateUser = function (user) {
+  var url = URL_VALIDATE_USER;
+  var postData = {user: user};
+  return axios.post(url, postData).then(function(res){
+    return res.data;
+  }).catch(function(err) {
+    return err;
+  });
+};
+
 module.exports = {
   changeBankDetails: changeBankDetails,
   createCase: createCase,
-  updateCase: updateCase
+  updateCase: updateCase,
+  validateUser: validateUser
 }

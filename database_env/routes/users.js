@@ -11,6 +11,9 @@ router.get('/', function (req, res) {
 
 // Validate a user
 router.post('/validate', function (req, res) {
+  var user = _.get(req, 'body.user');
+  console.log('Request to validate:', user);
+  res.json(usersWrapper.validateUser(user));
 });
 
 // Changer the bank details

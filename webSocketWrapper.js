@@ -16,36 +16,40 @@ module.exports = function (httpServer) {
     return _.get(watsonInput, 'watsonInput');
   };
 
+  // Upon new connection define some callbacks
   io.on('connection', function (clientSocket) {
     console.log('--- New user has connected');
-    watsonWrapper.init(function (err, data) {
-      var payload;
-      if (err) {
-        payload = formatMessage('server:error', err);
-      } else {
-        payload = formatMessage('server:init', data);
-      }
+    watsonWrapper.initPromise().then(function(data) {
+      console.log('[init] Promise resolved');
+      var payload = formatMessage('server:init', data);
+      clientSocket.send(payload);
+    }).catch(function(err) {
+      console.error('[init] Promise caught:', err);
+      payload = formatMessage('server:init', err);
       clientSocket.send(payload);
     });
 
+
+    // When a message is receiced by the server
+    clientSocket.on('message', function (socketMessage) {
+      var watsonInput = parseSocketMessage(socketMessage); // Parse the data received as a string
+      watsonWrapper.sendMessagePromise(watsonInput).then(function(data) {
+        console.log('[sendMessage] Promise resolved');
+        var payload = formatMessage('server-message', data);
+        clientSocket.send(payload);
+      }).catch(function(err) {
+        console.log('[sendMessage] Promise caught:', err);
+        var payload = formatMessage('server-error', err);
+        clientSocket.send(payload);
+      });
+    });
+
+      // When a user disconnects
     clientSocket.on('disconnect', function (){
       console.log('--- A user has disconnected');
       watsonWrapper.disconnect();
     });
 
-    // When a message is receiced by the server
-    clientSocket.on('message', function (socketMessage) {
-      var watsonInput = parseSocketMessage(socketMessage); // Parse the data received as a string
-      watsonWrapper.sendMessage(watsonInput, function (err, data) { // Relay the message to Watson
-        var payload;
-        if (err) { // Relay error to the client
-          payload = formatMessage('server-error', err);
-        } else {
-          payload = formatMessage('server-message', data);
-        }
-        clientSocket.send(payload);
-      });
-    });
   });
 
   return io;
