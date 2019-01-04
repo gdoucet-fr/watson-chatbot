@@ -1,5 +1,5 @@
 [
   {"firstName": "Alice", "lastName": "Albright", "id": "111111", "nin": "NN111111N", "email": "gdoucet@scottishpower.com", "sortCode": "11-11-11", "accountNumber": "11111111"},
-  {"firstName": "Ben", "lastName": "Bryant", "id": "222222", "nin": "NN222222N", "email": "gdoucet@scottishpower.com", "sortCode": "22-22-22", "accountNumber": "22222222"},
+  {"firstName": "Bob", "lastName": "Bryant", "id": "222222", "nin": "NN222222N", "email": "gdoucet@scottishpower.com", "sortCode": "22-22-22", "accountNumber": "22222222"},
   {"firstName": "Charlie", "lastName": "Campbell", "id": "333333", "nin": "NN333333N", "email": "gdoucet@scottishpower.com", "sortCode": "33-33-33", "accountNumber": "33333333"}
 ]
